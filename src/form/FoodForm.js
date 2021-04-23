@@ -15,7 +15,8 @@ class FoodForm extends React.Component {
         packageWeightInKg: 0.0,
         earliestExpirationDate: '2021-10-24',
         foodKindId: 0,
-        foodKindName: ''
+        foodKindName: '',
+        price: 0.0
     }
 
     state = {
@@ -25,13 +26,13 @@ class FoodForm extends React.Component {
 
     componentDidMount() {
         if (this.props.food) {
-            const { foodId, name, description, animalId, animalName, numberOfPackagesInStorage, packageWeightInKg, earliestExpirationDate, foodKindId, foodKindName } = this.props.food
-            this.setState({ foodId, name, description, animalId, animalName, numberOfPackagesInStorage, packageWeightInKg, earliestExpirationDate, foodKindId, foodKindName });
+            const { foodId, name, description, animalId, animalName, numberOfPackagesInStorage, packageWeightInKg, earliestExpirationDate, foodKindId, foodKindName, price } = this.props.food
+            this.setState({ foodId, name, description, animalId, animalName, numberOfPackagesInStorage, packageWeightInKg, earliestExpirationDate, foodKindId, foodKindName, price });
         }
       //  this.getAnimals();
     }
     
-
+    //Fetching animals for dropdown list
     getAnimals = () => {
         fetch(`${ANIMALS_API_URL}/getanimals`)
             .then((response) => {
@@ -54,6 +55,7 @@ class FoodForm extends React.Component {
     onChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
+
     submitNew = e => {
         e.preventDefault();
         fetch(`${FOOD_API_URL}/addfood`, {
@@ -68,7 +70,8 @@ class FoodForm extends React.Component {
                 numberOfPackagesInStorage: this.state.numberOfPackagesInStorage,
                 packageWeightInKg: this.state.packageWeightInKg,
                 earliestExpirationDate: this.state.earliestExpirationDate,
-                foodKindId: this.state.foodKindId
+                foodKindId: this.state.foodKindId,
+                price: this.state.price
             })
         })
             .then(res => res.json())
@@ -78,6 +81,7 @@ class FoodForm extends React.Component {
             })
             .catch(err => console.log(err));
     }
+
     submitEdit = e => {
         e.preventDefault();
         fetch(`${FOOD_API_URL}/updatefood`, {
@@ -93,7 +97,8 @@ class FoodForm extends React.Component {
                 numberOfPackagesInStorage: this.state.numberOfPackagesInStorage,
                 packageWeightInKg: this.state.packageWeightInKg,
                 earliestExpirationDate: this.state.earliestExpirationDate,
-                foodKindId: this.state.foodKindId
+                foodKindId: this.state.foodKindId,
+                price: this.state.price
             })
         })
             .then(() => {                
@@ -103,7 +108,7 @@ class FoodForm extends React.Component {
             .catch(err => console.log(err));
     }
     render() {
-        return <Form onSubmit={this.props.food ? this.submitEdit : this.submitNew}>
+        return <Form onSubmit={this.props.food ? this.submitEdit : this.submitNew}> 
             <FormGroup>
                 <Label for="name">Name:</Label>
                 <Input type="text" name="name" onChange={this.onChange} defaultValue={this.props.food ?  this.props.food.name : ''} />
@@ -137,6 +142,10 @@ class FoodForm extends React.Component {
             <FormGroup>
                 <Label for="foodKindId">Food kind:</Label>
                 <Input type="text" name="foodKindId" onChange={this.onChange} defaultValue={this.props.food ?  this.props.food.foodKindId : ''} />
+            </FormGroup>
+            <FormGroup>
+                <Label for="price">Price:</Label>
+                <Input type="text" name="price" onChange={this.onChange} defaultValue={this.props.food ?  this.props.food.price : ''} />
             </FormGroup>
             <Button>Send</Button>
         </Form>;
