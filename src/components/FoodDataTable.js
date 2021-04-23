@@ -32,6 +32,7 @@ class FoodDataTable extends Component {
           <th>Package weight</th>
           <th>Earliest expiration date</th>
           <th>Food kind</th>
+          <th>Price</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -65,6 +66,9 @@ class FoodDataTable extends Component {
               </td>
               <td>
                 {item.foodKindName}
+              </td>
+              <td>
+                {parseFloat(item.price).toFixed(2)}
               </td>
               <td width="200px" align="center">
                 <div>
