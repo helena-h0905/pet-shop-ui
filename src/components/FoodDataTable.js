@@ -5,7 +5,7 @@ import { FOOD_API_URL } from '../constants';
 import Moment from 'moment';
 class FoodDataTable extends Component {
   deleteFood = id => {
-    let confirmDeletion = window.confirm('Do you really wish to delete it?');
+    let confirmDeletion = window.confirm('Are you sure you want to delete this item?');
     if (confirmDeletion) {
       fetch(`${FOOD_API_URL}/deletefood?foodId=${id}`, {
         method: 'delete',
